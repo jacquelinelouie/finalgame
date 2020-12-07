@@ -5,7 +5,7 @@ class Heart {
     this.y = 250;
   }
 
-  display(){
+  show(){
     image(hImg, this.x, this.y, this.r, this.r);
   }
 

@@ -1,6 +1,6 @@
 let player;
 let obstacle = [];
-let heart;
+let heart = [];
 
 let w = 700;
 let h = 400;
@@ -14,6 +14,10 @@ let points = 0;
 let state = 'title';
 let cnv;
 
+let x1 = 0;
+let x2;
+let scrollSpeed = 2;
+
 
 
 function preload(){
@@ -24,6 +28,7 @@ function preload(){
 }
 
 function setup() {
+
   cnv = createCanvas(700, 400);
   cnv.mouseClicked(function(){
     console.log('canvas is clicked');
@@ -31,7 +36,8 @@ function setup() {
   });
 
   player = new Player();
-  heart = new Heart();
+
+  x2 = width;
 }
 
 function keyPressed(){
@@ -67,7 +73,6 @@ function draw() {
 //
 }
 
-
 function title(){
   background(100);
   textSize(80);
@@ -91,11 +96,29 @@ function gameMouseClicked(){
 }
 
 function game(){
-    background(bImg);
+
+  image(bImg, x1, 0, width, height);
+  image(bImg, x2, 0, width, height);
+
+  x1 -= scrollSpeed;
+  x2 -= scrollSpeed;
+
+  if (x1 < -width){
+    x1 = width;
+  }
+  if (x2 < -width){
+    x2 = width;
+  }
+    //code from demo
+
     text(`points: ${points}`, 500, h - 30);
 
     if (random(1) < 0.005) {
       obstacle.push(new Obstacle());
+    }
+
+    if (random(1) < 0.005) {
+      heart.push(new Heart());
     }
 
 
@@ -108,17 +131,22 @@ function game(){
       }
     }
 
+    for (let h of heart){
+      h.move();
+      h.show();
+      if (dist(player.x, player.y, h.x, h.y) <= (player.r + h.r) / 2){
+        points ++;
+        console.log('points');
+      }
+    }
+
     player.show();
     player.move();
 
-    heart.display();
-    heart.move();
+
 
     //check for collision, if there is collision increase points by once
-    if (dist(player.x, player.y, heart.x, heart.y) <= (player.r + heart.r) / 2){
-      points ++;
-      console.log('points');
-    }
+
 
 
 }
