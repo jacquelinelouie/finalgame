@@ -1,4 +1,4 @@
-class Heart {
+class Water {
   constructor(){
     this.r = 50;
     this.x = width - this.r;
@@ -6,7 +6,7 @@ class Heart {
   }
 
   show(){
-    image(hImg, this.x, this.y, this.r, this.r);
+    image(wImg, this.x, this.y, this.r, this.r);
   }
 
   move(){
